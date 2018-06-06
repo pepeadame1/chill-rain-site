@@ -39,7 +39,7 @@ function resize() {
   // You can use the 'screen' property as the renderer visible
   // area, this is more useful than view.width/height because
   // it handles resolution
-  rect.position.set(app.screen.width, app.screen.height);
+  app.position.set(app.screen.width, app.screen.height);
   
 }
 
