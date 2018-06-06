@@ -29,6 +29,33 @@ var drops2 = [];
 var drops3 = [];
 var drops4 = [];
 
+//agregar el boton de play
+var playbutton = PIXI.Sprite.fromImage('resources/play.png');
+playbutton.anchor.set(0.5);
+playbutton.x = 50;
+playbutton.y = app.screen.height - 50;
+playbutton.scale.x = 0.5;
+playbutton.scale.y = 0.5;
+// Opt-in to interactivity
+playbutton.interactive = true;
+
+// Shows hand cursor
+playbutton.buttonMode = true;
+
+// Pointers normalize touch and mouse
+playbutton.on('pointerdown', onClick);
+
+app.stage.addChild(playbutton);
+
+function onClick () {
+    audio.pause();
+    audio.currentTime = 0;
+    song.pause();
+    song.currentTime = 0;
+    audio.play();
+    song.play();
+}
+
 //resize the screen to the correct size
 window.addEventListener('resize', resize);
 function resize() {
@@ -39,7 +66,7 @@ function resize() {
   // You can use the 'screen' property as the renderer visible
   // area, this is more useful than view.width/height because
   // it handles resolution
-  app.position.set(app.screen.width, app.screen.height);
+  //app.position.set(app.screen.width, app.screen.height);
   
 }
 
@@ -159,6 +186,10 @@ for (i = 0; i < 600; i++) {
 });
 
 function repeat(){
+
+//mover el boton de play
+playbutton.x = 50;
+playbutton.y = app.screen.height - 50;
 
 //for loop para iniciar todas las primeras lluvias
 var ranX;
