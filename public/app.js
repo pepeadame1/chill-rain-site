@@ -4,6 +4,8 @@ var app = new PIXI.Application({
     backgroundColor : 0x1099bb
 });
 
+
+
 document.body.appendChild(app.view);
 //agregar background
 var background = PIXI.Sprite.fromImage('resources/background.png');
@@ -59,10 +61,10 @@ function onClick () {
 //resize the screen to the correct size
 window.addEventListener('resize', resize);
 function resize() {
-    repeat();
+    
 	// Resize the renderer
 	app.renderer.resize(window.innerWidth, window.innerHeight);
-  
+    repeat();
   // You can use the 'screen' property as the renderer visible
   // area, this is more useful than view.width/height because
   // it handles resolution
@@ -235,3 +237,4 @@ for (i = 0; i < 600; i++) {
     drops4[i].y = ranY;
 }
 };
+resize();
