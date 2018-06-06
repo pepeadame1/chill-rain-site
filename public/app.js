@@ -21,7 +21,10 @@ app.stage.addChild(background);
 
 //agregar musica y sonido de lluvia
 var audio = new Audio('resources/rain.mp3');
-var song = new Audio('resources/song.mp3');
+var song1 = ('resources/iwasallover.mp3');
+var song2 = ('resources/sugar.mp3');
+var song = new Audio(song1);
+var currentsong = 'song1';
 audio.loop = true;
 song.loop = true;
 audio.play();
@@ -32,31 +35,90 @@ var drops3 = [];
 var drops4 = [];
 
 //agregar el boton de play
-var playbutton = PIXI.Sprite.fromImage('resources/play.png');
+var playsprite = PIXI.Texture.fromImage('resources/play.png');
+var pausesprite = PIXI.Texture.fromImage('resources/pause.png');
+var playbutton = new PIXI.Sprite(playsprite);
 playbutton.anchor.set(0.5);
 playbutton.x = 50;
 playbutton.y = app.screen.height - 50;
 playbutton.scale.x = 0.5;
 playbutton.scale.y = 0.5;
-// Opt-in to interactivity
 playbutton.interactive = true;
-
-// Shows hand cursor
 playbutton.buttonMode = true;
-
 // Pointers normalize touch and mouse
-playbutton.on('pointerdown', onClick);
+playbutton.on('pointerdown', onClickplay);
 
 app.stage.addChild(playbutton);
 
-function onClick () {
-    audio.pause();
-    audio.currentTime = 0;
-    song.pause();
-    song.currentTime = 0;
-    audio.play();
-    song.play();
+function onClickplay () {
+    if(song.paused){//si la cancion esta pausada
+        audio.pause();
+        audio.currentTime = 0;
+        song.pause();
+        song.currentTime = 0;
+        audio.play();
+        song.play();
+        playbutton.texture = playsprite;
+    }else{
+        song.pause();
+        playbutton.texture = pausesprite;
+    }
+    
 }
+
+//agregar el boton de skip
+var skipbutton = PIXI.Sprite.fromImage('resources/skip.png');
+skipbutton.anchor.set(0.5);
+skipbutton.x = app.screen.width-50;
+skipbutton.y = app.screen.height - 50;
+skipbutton.scale.x = 0.5;
+skipbutton.scale.y = 0.5;
+skipbutton.interactive = true;
+skipbutton.buttonMode = true;
+// Pointers normalize touch and mouse
+skipbutton.on('pointerdown', onClickskip);
+
+app.stage.addChild(skipbutton);
+
+function onClickskip () {//si quieres agregar mas canciones pones if else y vas creando un loop
+    if(currentsong == 'song1'){
+    song.src = song2;
+    song.play();
+    currentsong = 'song2';
+    songText.text = sugar;
+    }else{
+        song.src = song1;
+        song.play();
+        currentsong = 'song1';
+        songText.text = allover;
+    }
+}
+
+
+//agregar texto
+var style = new PIXI.TextStyle({
+    fontFamily: 'VT323',
+    fontSize: 36,
+    fill: ['#ffffff'],
+    stroke: '#4a1850',
+    fontWeight: 'bold',
+    strokeThickness: 5,
+    dropShadow: true,
+    dropShadowColor: '#000000',
+    dropShadowBlur: 4,
+    dropShadowAngle: Math.PI / 6,
+    dropShadowDistance: 6
+});
+
+var allover = 'i was all over her - salvia palth';
+var sugar = 'sugar for the pill - slowdive';
+
+var songText = new PIXI.Text(allover, style);
+songText.x = 100;
+songText.y = app.screen.height -50;
+
+app.stage.addChild(songText);
+
 
 //resize the screen to the correct size
 window.addEventListener('resize', resize);
@@ -185,6 +247,8 @@ for (i = 0; i < 600; i++) {
 //move background
 //background.position.x = -100+(shift-app.screen.width/2)*.10;
 
+
+
 });
 
 function repeat(){
@@ -192,6 +256,15 @@ function repeat(){
 //mover el boton de play
 playbutton.x = 50;
 playbutton.y = app.screen.height - 50;
+
+//mover el texto
+songText.x = 100;
+songText.y = app.screen.height - 64;
+
+//mover el boton de skip
+skipbutton.x = app.screen.width-70;
+skipbutton.y = app.screen.height - 50;
+
 
 //for loop para iniciar todas las primeras lluvias
 var ranX;
